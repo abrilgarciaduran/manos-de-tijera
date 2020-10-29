@@ -1,0 +1,37 @@
+.item {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    border-radius: 25px;
+    margin: 20px 40px;
+    transition: box-shadow 0.5s;
+}
+.item:hover {
+    box-shadow: 4px 4px 10px 0px #7A7A7A;
+}
+.item img {
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+.item .button-center {
+    display: block;
+    margin: auto auto 10px auto;
+    color: #e51f8e;
+    padding: 10px;
+    border-radius: 10px;
+}
+.item .button-center:hover {
+    font-weight: 600;
+}
+.item h5 {
+    font-size: 20px;
+}
+.item-list {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.item a {
+    color: #000;
+}

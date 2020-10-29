@@ -1,0 +1,14 @@
+.faqs-section {
+    text-align: center;
+    background-color: #000;
+    color: #FFF;
+    height: 100vh;
+}
+.faqs-section h2 {
+    color: #e51f8e;
+    padding: 50px 0 20px 0;
+    margin-top: 0;
+}
+.faqs h4 {
+    margin: 30px 0 10px; 
+}

@@ -1,0 +1,16 @@
+.checkout-item {
+    background-color: #000;
+    border: 1px solid #e51f8e;
+    border-radius: 10px;
+    color: #FFF;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px;
+}
+.checkout-item div {
+    margin: 20px;
+}
+.img-medium {
+    height: 90px;
+}
