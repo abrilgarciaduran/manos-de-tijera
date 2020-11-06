@@ -1,17 +1,30 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { CartContext } from '../../context/cartContext.js';
 import CheckoutItem from './checkoutItem.js';
 import './checkout.css';
 
 function Cart() {
     const [cart, setCart] = useContext(CartContext);
+    const [totalPrice, setTotalPrice] = useState(0);
+    useEffect(() => {
+        let total = 0;
+        cart.forEach(product => {
+            const price = product.price * product.quantity;
+            total = total + price
+        });
+        setTotalPrice(total);
+    })
     return (
         <section className='checkout-section'>
             <div className="half flex-column checkout-item-container">
                 <h2>RESUMEN DE COMPRA</h2>
-                <ul>
-                    {cart.map(product => <CheckoutItem data={product} key={product.id} />)}
-                </ul>
+                <div>{cart.length === 0 ?
+                    <h3>No hay nada en el carrito</h3> :
+                    <div>
+                        <ul>{cart.map(product => <CheckoutItem data={product} key={product.id} />)}</ul>
+                        <h3 style={{ textAlign: "center" }}>Total ${totalPrice}</h3>
+                    </div>}
+                </div>
             </div>
             <div className="half flex-column checkout-form">
                 <h2>DATOS DE COMPRA</h2>
@@ -30,13 +43,13 @@ function Cart() {
                     </div>
                     <div className="input">
                         <label htmlFor="mail">Mail: </label>
-                        <input type="text" id='mail' name='mail' placeholder='Escribe tu mail aquí' />
+                        <input type='email' id='mail' name='mail' placeholder='Escribe tu mail aquí' />
                     </div>
                     <div className="input">
                         <label htmlFor="repeat-mail">Repite tu mail: </label>
-                        <input type="text" id='repeat-mail' name='repeat-mail' placeholder='Repite tu mail aquí' />
+                        <input type="email" id='repeat-mail' name='repeat-mail' placeholder='Repite tu mail aquí' />
                     </div>
-                    <button type='submit' className='button-center'>COMPRAR</button>
+                    <button type='submit' className='button-center' disabled={cart.length === 0 ? true : false}>COMPRAR</button>
                 </form>
             </div>
         </section>

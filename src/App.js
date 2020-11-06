@@ -33,7 +33,7 @@ function App() {
               <Product />
             </Route>
             <Route exact path='/categories/:categoryId'>
-              <Categories items={items} />
+              <Categories />
             </Route>
             <Route exact path='/faqs'>
               <Faqs />

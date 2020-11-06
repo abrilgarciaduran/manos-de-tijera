@@ -5,7 +5,7 @@ import AddToCart from './addToCart.js';
 
 
 function ItemDetail(props) {
-    const [cart, setCart] = useContext(CartContext)
+    const [cart, setCart] = useContext(CartContext);
     const [count, setCount] = useState(0);
     const handleAdd = () => {
         if (count < 10) {
@@ -24,13 +24,36 @@ function ItemDetail(props) {
     const handleChange = (event) => {
         setCount(event.target.value);
     };
+    const isRepeated = (cart, id) => {
+        let repeated = false;
+        cart.forEach(product => {
+            if (product.id === id) {
+                repeated = true;
+            }
+        })
+        return repeated;
+    }
     const addToCart = () => {
         const product = props.item;
-        setCart(currentCart => [...currentCart, product]);
+        product.quantity = count;
+        if (cart.length === 0) {
+            setCart(currentCart => [...currentCart, product]);
+            console.log('Adding the first');
+        } else if (!isRepeated(cart, product.id)) {
+            setCart(currentCart => [...currentCart, product]);
+            console.log('Adding new one');
+        } else {
+            const currentCart = cart;
+            currentCart.map(item => {
+                if (item.id === product.id) {
+                    console.log('Había ' + item.quantity + '. Agrego ' + count)
+                    item.quantity = item.quantity + count;
+                }
+            })
+            console.log('Adding repeated');
+            setCart(currentCart);
+        }
     }
-    useEffect(() => {
-        console.log(cart)
-    })
     return (
         <section className='item-detail-section'>
             <div className='item-detail flex-column'>

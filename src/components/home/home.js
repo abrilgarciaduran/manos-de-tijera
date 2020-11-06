@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getFirestore } from '../../firebase';
 import logo from '../../assets/logo.png';
 import './home.css';
 import ItemList from '../itemList/itemList.js';
@@ -6,10 +7,17 @@ import ItemList from '../itemList/itemList.js';
 function Home(props) {
     const [items, setItems] = useState([])
     useEffect(() => {
-        setTimeout(() => {
-            setItems(data)
-        }, 1000)
-    }, [])
+        const db = getFirestore();
+        const itemCollection = db.collection('items');
+        itemCollection.get().then((queySnapshot) => {
+            if (queySnapshot.size === 0) {
+                console.log('No results')
+            }
+            setItems(queySnapshot.docs.map(doc => doc.data()));
+        }).catch((error) => {
+            console.log(`Error searching items: ${error}`);
+        })
+    })
     return (
         <section className='home'>
             <div className='home-banner'>

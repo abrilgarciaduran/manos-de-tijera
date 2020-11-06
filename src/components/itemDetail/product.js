@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { getFirestore } from '../../firebase';
 import ItemDetail from './itemDetail.js';
 import Loader from '../loader/loader.js';
 import './itemDetail.css';
@@ -15,6 +16,21 @@ function Product(props) {
             setLoading(false);
         }, 2000)
     }, [productId])
+    useEffect(() => {
+        setLoading(true)
+        const db = getFirestore();
+        const itemCollection = db.collection('items');
+        itemCollection.get().then((querySnapshot) => {
+            if (querySnapshot.size === 0) {
+                console.log('No results')
+            }
+            setProduct(querySnapshot.docs.map(doc => doc.data()));
+        }).catch((error) => {
+            console.log(`Error searching items: ${error}`);
+        }).finally(() => {
+            setLoading(false)
+        })
+    })
     return (
         <div>
             {loading ? <Loader /> : <ItemDetail item={product} />}
@@ -23,8 +39,6 @@ function Product(props) {
 }
 
 export default Product;
-
-
 
 
 
@@ -42,7 +56,6 @@ const data = [{
     description: "Este es el produto n°2",
     price: 150,
     category: 'shampoo-matizador',
-    quantity: 2,
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT42bTFUkkmXvZsJAcxJJV5RjWPt3_xcaCAeQ&usqp=CAU"
 },
 {
